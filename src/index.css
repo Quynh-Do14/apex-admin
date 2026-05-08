@@ -1,0 +1,425 @@
+* {
+  font-family: 'Work Sans', sans-serif;
+  font-optical-sizing: auto;
+  /* font-style: normal; */
+}
+body {
+  margin: 0;
+}
+.form-control {
+  outline: none;
+  font-size: 14px;
+  padding: 0 20px;
+  height: 50px;
+  background-color: transparent;
+  border: 1px solid #ddd;
+  border-radius: 0;
+  box-shadow: 0 0 transparent;
+  transition: all 0.4s ease;
+  box-shadow: 0 0 0 #000;
+  width: 100%;
+}
+
+.ps-btn--fullwidth {
+  background-color: #fcb800;
+}
+.ps-btn--reverse {
+  background-color: #576391;
+  text-align: center;
+}
+
+.ps-btn--reverse:hover {
+  background-color: #222222;
+}
+
+.ps-btn--gray {
+  background-color: #e5e5e5;
+  color: #000000;
+  font-size: 1.6rem;
+  text-align: center;
+}
+
+.ps-btn--black {
+  background-color: #000;
+  text-align: center;
+  color: #ffffff;
+}
+
+.ps-btn--black.ps-btn--outline {
+  background-color: transparent;
+  border: 2px solid #000;
+  color: #000;
+}
+
+.ps-btn--black.ps-btn--outline:hover {
+  background-color: #000;
+  color: #ffffff;
+}
+
+.message-error {
+  font-weight: 600;
+  text-align: left;
+  color: #f61a1a;
+}
+
+.ant-upload.ant-upload-select {
+  width: 100% !important;
+}
+
+.ant-collapse-header {
+  padding: 0px !important;
+}
+
+/* Fix cho ReactQuill - QUAN TRỌNG */
+/* scroll custom */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 0px grey;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ffd700;
+  border-radius: 10px;
+}
+
+/* Chỉ cần 2 dòng này để fix bug italic */
+.ql-snow .ql-editor {
+  font-style: normal !important;
+  font-family: var(
+    --font-family,
+    source-code-pro,
+    Menlo,
+    Monaco,
+    Consolas,
+    'Courier New',
+    monospace
+  ) !important;
+}
+.ql-snow .ql-italic {
+  font-style: italic !important;
+}
+
+/* Đảm bảo toolbar hiển thị đúng */
+.ql-snow .ql-toolbar button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+  float: left;
+  height: 24px;
+  padding: 3px 5px;
+  width: 28px;
+}
+
+/* Fix icon italic */
+.ql-snow .ql-stroke {
+  fill: none;
+  stroke: #444;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+/* Active state */
+.ql-snow .ql-active .ql-stroke {
+  stroke: #06c !important;
+}
+
+.ql-snow .ql-active {
+  color: #06c !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+.flex {
+  display: flex;
+}
+.flex-col {
+  flex-direction: column;
+}
+.justify-center {
+  justify-content: center;
+}
+.gap-1 {
+  gap: 8px;
+}
+.gap-2 {
+  gap: 16px;
+}
+.gap-4 {
+  gap: 32px;
+}
+
+.full-page-loading {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.801);
+  z-index: 99999;
+}
+.max-w-none {
+  max-width: none;
+}
+
+.password-change-title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #2c3e50;
+  text-align: center;
+  margin: 0 0 0 0;
+  position: relative;
+}
+
+/* Video  */
+.video-container {
+  position: relative;
+  width: 900px;
+  height: 500px;
+  margin: 0 auto;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+  transform: scale(0.98);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+  border: 4px solid rgba(255, 255, 255, 0.2);
+}
+
+@media screen and (max-width: 768px) {
+  .table-common table {
+    width: calc(40vh);
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1199px) {
+  .table-common {
+    width: calc(65vh);
+  }
+}
+
+/* Quill Editor */
+.ql-editor {
+  font-size: 16px !important;
+  line-height: 1.6 !important;
+}
+
+.ql-editor.ql-blank::before {
+  font-size: 16px !important;
+  font-style: normal !important;
+}
+
+/* ===== DARK THEME ===== */
+.quill-dark-editor .ql-container {
+  background: linear-gradient(180deg, #1c1915 0%, #302c26 100%);
+  border-color: #444 !important;
+}
+
+.quill-dark-editor .ql-editor {
+  color: #fff;
+}
+
+.quill-dark-editor .ql-editor.ql-blank::before {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* ===== LIGHT THEME ===== */
+.quill-light-editor .ql-container {
+  background: #fff;
+  border-color: #ccc !important;
+}
+
+.quill-light-editor .ql-editor {
+  color: #333;
+}
+
+.quill-light-editor .ql-editor.ql-blank::before {
+  color: #999;
+}
+
+/* ===== TOOLBAR - Giữ nguyên cho cả 2 theme ===== */
+.ql-toolbar {
+  background: #fff !important;
+  border-color: #ddd !important;
+  border-radius: 8px 8px 0 0 !important;
+}
+
+/* Optional: Tăng size cho toolbar icons */
+.ql-toolbar button .ql-stroke {
+  stroke-width: 2 !important;
+}
+
+.ql-toolbar button .ql-fill {
+  fill: #333 !important;
+}
+
+.ql-editor {
+  font-size: 2rem !important; /* hoặc 20px tùy ý */
+}
+
+.ql-editor.ql-blank::before {
+  font-size: 2rem !important;
+}
+
+/* Section Header */
+.section-header.dark {
+  background: linear-gradient(180deg, #1c1915 0%, #302c26 100%);
+}
+.section-header.light {
+  background: #fff;
+}
+
+.section-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+  margin-bottom: 30px;
+  position: relative;
+  padding: 20px;
+  border: 1px solid #302c26;
+}
+.section-header p {
+  margin: 0;
+}
+.section-header strong {
+  font-weight: 800;
+}
+
+.section-header .header-badge {
+  display: inline-block;
+  background: linear-gradient(90deg, #ffd700, #ffa500);
+  padding: 8px 16px;
+  border-radius: 20px;
+}
+
+.section-header .badge-text {
+  color: #000;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.section-header .main-title-custom {
+  letter-spacing: 1px;
+  line-height: 1.2;
+}
+
+.section-header .main-title {
+  letter-spacing: 2px;
+  line-height: 1.2;
+}
+
+.section-header.dark .subtitle {
+  color: #aaa;
+}
+.section-header.light .subtitle {
+  color: #666;
+}
+.section-header .subtitle {
+  line-height: 1.5;
+  margin: 0;
+  max-width: 500px;
+  text-align: center;
+}
+
+/* Responsive Font Sizes */
+@media (max-width: 768px) {
+  .section-header .main-title {
+    font-size: 1.5rem;
+  }
+
+  .section-header .subtitle {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-header .main-title {
+    font-size: 1.2rem;
+  }
+
+  .section-header .subtitle {
+    font-size: 0.8rem;
+  }
+}
+
+/* Tùy chọn: Responsive cho màn hình lớn hơn */
+@media (min-width: 1200px) {
+  .section-header .main-title {
+    font-size: 2rem;
+  }
+
+  .section-header .subtitle {
+    font-size: 1.1rem;
+  }
+}
+
+/* Stats CSS */
+.stats-bar {
+  background: linear-gradient(rgb(34, 34, 34) 0%, rgb(51, 51, 51) 100%);
+  border: 2px solid #ffd700;
+  padding: 40px 0;
+  position: relative;
+  z-index: 5;
+}
+
+.stats-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+}
+
+.stat-item {
+  text-align: center;
+  position: relative;
+}
+
+.stat-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: -15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 40px;
+  background: #ffffffa8;
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  /* color: #ffd700; */
+  margin-bottom: 8px;
+  line-height: 1;
+}
+.stat-number p {
+  margin: 0;
+}
+.stat-number strong {
+  font-weight: 800;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #ffffffe3;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}

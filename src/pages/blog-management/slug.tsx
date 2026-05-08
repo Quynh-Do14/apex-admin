@@ -1,0 +1,308 @@
+import React, { useEffect, useState } from 'react'
+import styles from '../../asset/css/admin/admin-component.module.css';
+import { Col, Row } from 'antd';
+import { useRecoilValue } from 'recoil';
+import { CategoryBlogState } from '../../core/atoms/category/categoryState';
+import { useNavigate, useParams } from 'react-router-dom';
+import { ROUTE_PATH } from '../../core/common/appRouter';
+import blogService from '../../infrastructure/repository/blog/blog.service';
+import { configImageURL } from '../../infrastructure/helper/helper';
+import { WarningMessage } from '../../infrastructure/common/toast/message';
+import AdminLayout from '../../infrastructure/common/layout/admin/MainLayout';
+import ButtonHref from '../../infrastructure/common/button/ButtonHref';
+import ButtonCommon from '../../infrastructure/common/button/ButtonCommon';
+import UploadAvatar from '../../infrastructure/common/input/upload-image';
+import InputTextCommon from '../../infrastructure/common/input/input-text-common';
+import TextAreaCommon from '../../infrastructure/common/input/textarea-common';
+import { FullPageLoading } from '../../infrastructure/common/loader/loading';
+import InputSelectStatus from '../../infrastructure/common/input/select-status';
+import Constants from '../../core/common/constants';
+import { BlogInterface } from '../../infrastructure/interface/blog/blog.interface';
+import RichTextEditor from '../../infrastructure/common/input/richTextEditor';
+import InputSlugCommon from '../../infrastructure/common/input/input-slug-common';
+import InputMultiCommon from '../../infrastructure/common/input/input-multi';
+
+
+const SlugBlogManagement = () => {
+    const [detail, setDetail] = useState<BlogInterface>();
+    const [originalImage, setOriginalImage] = useState<string | null>(null);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [validate, setValidate] = useState<any>({});
+    const [submittedTime, setSubmittedTime] = useState<any>();
+    const [_data, _setData] = useState<any>({});
+    const dataRequest = _data;
+
+    const setDataRequest = (data: any) => {
+        Object.assign(dataRequest, { ...data });
+        _setData({ ...dataRequest });
+    };
+
+    const isValidData = () => {
+        let allRequestOK = true;
+
+        setValidate({ ...validate });
+
+        Object.values(validate).forEach((it: any) => {
+            if (it.isError === true) {
+                allRequestOK = false;
+            }
+        });
+        return allRequestOK;
+    };
+    const categoryBlog = useRecoilValue(CategoryBlogState).data;
+    const router = useNavigate();
+    const param = useParams();
+    const onBack = () => {
+        router(ROUTE_PATH.BLOG_MANAGEMENT)
+    }
+
+    const onGetByIdAsync = async () => {
+        if (param.id) {
+            try {
+                await blogService.GetBlogById(
+                    String(param.id),
+                    setLoading
+                ).then((res) => {
+                    setDetail(res)
+                })
+            }
+            catch (error) {
+                console.error(error)
+            }
+        }
+
+    }
+    useEffect(() => {
+        onGetByIdAsync().then(() => { })
+    }, [param.id])
+
+    useEffect(() => {
+        if (detail) {
+            const fullImage = configImageURL(detail.image);
+            setOriginalImage(fullImage);
+            setDataRequest({
+                image: configImageURL(detail.image),
+                title: detail.title,
+                short_description: detail.short_description,
+                blog_category_id: detail.blog_category_id,
+                description: detail.description,
+                active: detail.active,
+                slug: detail.slug,
+                keyword: detail.keyword.map((item) => item.keyword)
+
+            });
+        };
+    }, [detail]);
+
+    const onUpdateAsync = async () => {
+        await setSubmittedTime(Date.now());
+
+        if (isValidData()) {
+            try {
+                const payload: any = {
+                    title: dataRequest.title,
+                    short_description: dataRequest.short_description,
+                    blog_category_id: dataRequest.blog_category_id,
+                    description: dataRequest.description,
+                    active: dataRequest.active,
+                    slug: dataRequest.slug,
+                    is_draft: false,
+                    keyword: JSON.stringify(dataRequest.keyword)
+                };
+
+                if (dataRequest.image !== originalImage) {
+                    payload.image = dataRequest.image;
+                }
+
+                await blogService.UpdateBlogAdmin(
+                    String(param.id),
+                    payload,
+                    onBack,
+                    setLoading
+                );
+            } catch (error) {
+                console.error(error);
+            }
+        } else {
+            WarningMessage("Nhập thiếu thông tin", "Vui lòng nhập đầy đủ thông tin");
+        }
+    };
+    console.log('detail', detail);
+
+    const onUpdateDraftAsync = async () => {
+        try {
+            const payload: any = {
+                title: dataRequest.title,
+                short_description: dataRequest.short_description,
+                blog_category_id: dataRequest.blog_category_id,
+                description: dataRequest.description,
+                active: false,
+                is_draft: true,
+                keyword: JSON.stringify(dataRequest.keyword)
+            };
+
+            if (dataRequest.image !== originalImage) {
+                payload.image = dataRequest.image;
+            }
+
+            await blogService.UpdateBlogAdmin(
+                String(param.id),
+                payload,
+                onBack,
+                setLoading
+            );
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    return (
+        <AdminLayout
+            breadcrumb={"Quản lý tin tức"}
+            title={"Cập nhật tin tức"}
+            redirect={ROUTE_PATH.BLOG_MANAGEMENT}
+        >
+            <div className={styles.manage_container}>
+                <div className={styles.headerPage}>
+                    <h2>Cập nhật tin tức</h2>
+                    <div className={styles.btn_container}>
+                        <ButtonHref
+                            href={ROUTE_PATH.BLOG_MANAGEMENT}
+                            title={'Quay lại'}
+                            width={150}
+                            variant={'ps-btn--gray'}
+                        />
+                        <ButtonCommon
+                            onClick={onUpdateDraftAsync}
+                            title={'Cập nhật bản nháp'}
+                            width={200}
+                            variant={'ps-btn--fullwidth'}
+                        />
+                        <ButtonCommon
+                            onClick={onUpdateAsync}
+                            title={'Cập nhật'}
+                            width={150}
+                            variant={'ps-btn--fullwidth'}
+                        />
+                    </div>
+                </div>
+                <div className={styles.table_container}>
+                    <Row align="top">
+                        <Col xs={24} sm={24} md={10} lg={8} xl={6} xxl={5} className={styles.form_container}>
+                            <UploadAvatar
+                                dataAttribute={dataRequest.image}
+                                setData={setDataRequest}
+                                attribute={'image'}
+                                label={'Ảnh'}
+                            />
+                        </Col>
+                        <Col xs={24} sm={24} md={14} lg={16} xl={18} xxl={19} className={styles.form_container}>
+                            <Row gutter={[16, 16]}>
+                                <Col span={24}>
+                                    <InputTextCommon
+                                        label={"Tiêu đề"}
+                                        attribute={"title"}
+                                        isRequired={true}
+                                        dataAttribute={dataRequest.title}
+                                        setData={setDataRequest}
+                                        disabled={false}
+                                        validate={validate}
+                                        setValidate={setValidate}
+                                        submittedTime={submittedTime}
+                                    />
+                                </Col>
+                                <Col span={24}>
+                                    <InputSlugCommon
+                                        label={"Đường dẫn"}
+                                        attribute={"slug"}
+                                        isRequired={true}
+                                        dataAttribute={dataRequest.slug}
+                                        setData={setDataRequest}
+                                        disabled={false}
+                                        validate={validate}
+                                        setValidate={setValidate}
+                                        submittedTime={submittedTime}
+                                        titleValue={dataRequest.title}
+                                        isUpdate={true}
+                                    />
+                                </Col>
+                                <Col span={24}>
+                                    <InputMultiCommon
+                                        label={"Từ khóa"}
+                                        attribute={"keyword"}
+                                        isRequired={false}
+                                        dataAttribute={dataRequest.keyword}
+                                        setData={setDataRequest}
+                                        disabled={false}
+                                        validate={validate}
+                                        setValidate={setValidate}
+                                        submittedTime={submittedTime}
+                                    />
+                                </Col>
+                                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                                    <InputSelectStatus
+                                        label={"Danh mục"}
+                                        attribute={"blog_category_id"}
+                                        isRequired={true}
+                                        dataAttribute={dataRequest.blog_category_id}
+                                        setData={setDataRequest}
+                                        disabled={false}
+                                        validate={validate}
+                                        setValidate={setValidate}
+                                        submittedTime={submittedTime}
+                                        listDataOfItem={categoryBlog}
+                                    />
+                                </Col>
+                                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                                    <InputSelectStatus
+                                        label={"Trạng thái"}
+                                        attribute={"active"}
+                                        isRequired={true}
+                                        dataAttribute={dataRequest.active}
+                                        setData={setDataRequest}
+                                        disabled={false}
+                                        validate={validate}
+                                        setValidate={setValidate}
+                                        submittedTime={submittedTime}
+                                        listDataOfItem={Constants.DisplayConfig.List}
+                                        valueName='value'
+                                        labelName='label'
+                                    />
+                                </Col>
+                                <Col span={24}>
+                                    <TextAreaCommon
+                                        label={"Mô tả ngắn"}
+                                        attribute={"short_description"}
+                                        isRequired={true}
+                                        dataAttribute={dataRequest.short_description}
+                                        setData={setDataRequest}
+                                        disabled={false}
+                                        validate={validate}
+                                        setValidate={setValidate}
+                                        submittedTime={submittedTime}
+                                    />
+                                </Col>
+                                <Col span={24}>
+                                    <RichTextEditor
+                                        label={"Mô tả"}
+                                        attribute={"description"}
+                                        isRequired={true}
+                                        dataAttribute={dataRequest.description}
+                                        setData={setDataRequest}
+                                        disabled={false}
+                                        validate={validate}
+                                        setValidate={setValidate}
+                                        submittedTime={submittedTime}
+                                    />
+                                </Col>
+                            </Row>
+                        </Col>
+                    </Row>
+                </div>
+            </div>
+            <FullPageLoading isLoading={loading} />
+        </AdminLayout >
+    )
+}
+
+export default SlugBlogManagement
