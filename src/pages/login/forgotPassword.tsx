@@ -64,7 +64,7 @@ const ForgotPasswordPage = () => {
             <div className={styles.loginContainer}>
                 {/* Left Panel - Branding */}
                 <div className={styles.brandPanel}>
-                    <img src={logo} alt='RIMO' width={300} />
+                    <img src={logo} alt='APEX' width={300} />
                 </div>
 
                 {/* Right Panel - Login Form */}

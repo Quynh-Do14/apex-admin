@@ -57,7 +57,7 @@ export default function Sidebar({ isOpen, profileState }: { isOpen: boolean, pro
     return (
         <aside className={`${styles.sidebar} ${isOpen ? styles.open : styles.closed}`}>
             <h2 className={styles.logo}>
-                <img src={logo} alt="rimo" height={80} />
+                <img src={logo} alt="APEX" height={80} />
             </h2>
             <nav>
                 <ul className={styles.menu}>

@@ -67,7 +67,7 @@ const LoginPage = () => {
             <div className={styles.loginContainer}>
                 {/* Left Panel - Branding */}
                 <div className={styles.brandPanel}>
-                    <img src={logo} alt='RIMO' width={300} />
+                    <img src={logo} alt='APEX' width={300} />
                 </div>
 
                 {/* Right Panel - Login Form */}
@@ -75,7 +75,7 @@ const LoginPage = () => {
                     <div className={styles.formWrapper}>
                         <div className={styles.formHeader}>
                             <h2 className={styles.formTitle}>
-                                Đăng nhập vào <span className={styles.highlight}>RIMO</span>
+                                Đăng nhập <span className={styles.highlight}>APEX AUTO</span>
                             </h2>
                             <p className={styles.formSubtitle}>
                                 Nhập thông tin đăng nhập của bạn để tiếp tục
