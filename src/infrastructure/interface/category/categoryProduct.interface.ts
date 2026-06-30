@@ -8,6 +8,7 @@ export interface CategoryProductInterface {
     index: number;
     products?: ProductInterface[]
     slug: string
+    sub_category?: boolean
 }
 
 export interface CategoryProductParams {

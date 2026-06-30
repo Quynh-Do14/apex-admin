@@ -38,13 +38,13 @@ export default class Constants {
             icon: 'fas fa-image',
             role: ["ADMIN", 'SELLER']
           },
-          {
-            id: 'homepage-images',
-            text: 'Hình ảnh trang chủ',
-            url: ROUTE_PATH.SLOGAN_MANAGEMENT,
-            icon: 'fas fa-images',
-            role: ["ADMIN", 'SELLER']
-          },
+          // {
+          //   id: 'homepage-images',
+          //   text: 'Hình ảnh trang chủ',
+          //   url: ROUTE_PATH.SLOGAN_MANAGEMENT,
+          //   icon: 'fas fa-images',
+          //   role: ["ADMIN", 'SELLER']
+          // },
           {
             id: 'homepage-config',
             text: 'Cấu hình trang chủ', // Đã đổi tên
@@ -84,13 +84,13 @@ export default class Constants {
         icon: 'fas fa-box-open',
         role: ["ADMIN", 'SELLER']
       },
-      {
-        id: 'agency-management',
-        text: 'Quản lý đại lý',
-        url: ROUTE_PATH.AGENCY_MANAGEMENT,
-        icon: 'fas fa-store-alt',
-        role: ["ADMIN", 'SELLER']
-      },
+      // {
+      //   id: 'agency-management',
+      //   text: 'Quản lý đại lý',
+      //   url: ROUTE_PATH.AGENCY_MANAGEMENT,
+      //   icon: 'fas fa-store-alt',
+      //   role: ["ADMIN", 'SELLER']
+      // },
       {
         id: 'blog-management',
         text: 'Quản lý tin tức',
@@ -198,6 +198,19 @@ export default class Constants {
       },
       {
         label: 'Không hiển thị',
+        value: false
+      },
+    ]
+  }
+
+  static FeaturedConfig = class {
+    static List = [
+      {
+        label: 'Nổi bật',
+        value: true
+      },
+      {
+        label: 'Không nổi bật',
         value: false
       },
     ]

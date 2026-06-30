@@ -121,11 +121,11 @@ const SlugConfigPageManagement = () => {
                 setTypeSelected(background.value)
             }
         }
-        if (dataRequest.type == "TITLE_PAGE") {
-            setDataRequest({
-                title: ""
-            })
-        }
+        // if (dataRequest.type == "TITLE_PAGE") {
+        //     setDataRequest({
+        //         title: ""
+        //     })
+        // }
     }, [dataRequest.type]);
 
     return (
@@ -176,19 +176,26 @@ const SlugConfigPageManagement = () => {
                                 <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                                     <img src={typeImage} alt="" width={"100%"} className='' />
                                 </Col>
-                                <Col span={24}>
-                                    <InputTextCommon
-                                        label={"Nội dung thẻ"}
-                                        attribute={"box_content"}
-                                        isRequired={false}
-                                        dataAttribute={dataRequest.box_content}
-                                        setData={setDataRequest}
-                                        disabled={false}
-                                        validate={validate}
-                                        setValidate={setValidate}
-                                        submittedTime={submittedTime}
-                                    />
-                                </Col>
+                                {
+                                    typeSelected == 'TITLE_PAGE'
+                                        ?
+                                        null
+                                        :
+                                        <Col span={24}>
+                                            <InputTextCommon
+                                                label={"Nội dung thẻ"}
+                                                attribute={"box_content"}
+                                                isRequired={false}
+                                                dataAttribute={dataRequest.box_content}
+                                                setData={setDataRequest}
+                                                disabled={false}
+                                                validate={validate}
+                                                setValidate={setValidate}
+                                                submittedTime={submittedTime}
+                                            />
+                                        </Col>
+                                }
+
                                 <Col span={24}>
                                     {
                                         isShowkBackground

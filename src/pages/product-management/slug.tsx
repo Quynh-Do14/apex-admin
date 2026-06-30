@@ -3,7 +3,7 @@ import styles from '../../asset/css/admin/admin-component.module.css';
 import { Col, Row } from 'antd';
 import { useRecoilValue } from 'recoil';
 import { BrandState } from '../../core/atoms/brand/brandState';
-import { CategoryProductState } from '../../core/atoms/category/categoryState';
+import { CategoryProductState, SubCategoryState } from '../../core/atoms/category/categoryState';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ROUTE_PATH } from '../../core/common/appRouter';
 import productService from '../../infrastructure/repository/product/product.service';
@@ -64,6 +64,7 @@ const SlugProductManagement = () => {
     };
     const brandState = useRecoilValue(BrandState).data;
     const categoryProductState = useRecoilValue(CategoryProductState).data;
+    const subCategoryState = useRecoilValue(SubCategoryState).data;
 
     const router = useNavigate();
     const param = useParams();
@@ -100,6 +101,7 @@ const SlugProductManagement = () => {
                 image: configImageURL(detail.image),
                 name: detail.name,
                 category_id: detail.category_id,
+                sub_category_id: detail.sub_category_id,
                 brand_id: detail.brand_id,
                 price: detail.price,
                 price_sale: detail.price_sale,
@@ -107,6 +109,7 @@ const SlugProductManagement = () => {
                 year: detail.year,
                 short_description: detail.short_description,
                 active: detail.active,
+                is_featured: detail.is_featured,
                 description: detail.description,
                 index: detail.index,
                 slug: detail.slug,
@@ -152,6 +155,7 @@ const SlugProductManagement = () => {
             // Append các trường thông tin
             formData.append('name', dataRequest.name);
             formData.append('category_id', dataRequest.category_id);
+            formData.append('sub_category_id', dataRequest.sub_category_id || 0);
             // formData.append('brand_id', dataRequest.brand_id);
             formData.append('price', dataRequest.price);
             formData.append('price_sale', dataRequest.price_sale);
@@ -163,6 +167,7 @@ const SlugProductManagement = () => {
             // formData.append('more_infomation', dataRequest.more_infomation);
             formData.append('description', dataRequest.description);
             formData.append('active', dataRequest.active);
+            formData.append('is_featured', dataRequest.is_featured);
             formData.append('productFigure', JSON.stringify(figureList.filter(item => item.key && item.value)));
 
             // ✅ Truyền danh sách ảnh giữ lại để BE biết ảnh nào cần xóa
@@ -291,6 +296,28 @@ const SlugProductManagement = () => {
                                         listDataOfItem={categoryProductState}
                                     />
                                 </Col>
+                                {
+                                    categoryProductState.find((item) => item.id == dataRequest?.category_id)?.sub_category == true
+                                        ?
+                                        <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                                            <InputSelectStatus
+                                                label={"Danh mục phụ"}
+                                                attribute={"sub_category_id"}
+                                                isRequired={true}
+                                                dataAttribute={dataRequest.sub_category_id}
+                                                setData={setDataRequest}
+                                                disabled={false}
+                                                validate={validate}
+                                                setValidate={setValidate}
+                                                submittedTime={submittedTime}
+                                                listDataOfItem={subCategoryState}
+                                            />
+
+                                        </Col>
+                                        :
+                                        null
+                                }
+
                                 {/* <Col xs={24} sm={24} md={24} lg={12} xl={12}>
                                     <InputSelectCommon
                                         label={"Thương hiệu"}
@@ -356,6 +383,22 @@ const SlugProductManagement = () => {
                                         setValidate={setValidate}
                                         submittedTime={submittedTime}
                                         listDataOfItem={Constants.DisplayConfig.List}
+                                        valueName='value'
+                                        labelName='label'
+                                    />
+                                </Col>
+                                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                                    <InputSelectStatus
+                                        label={"Sản phẩm nổi bật"}
+                                        attribute={"is_featured"}
+                                        isRequired={true}
+                                        dataAttribute={dataRequest.is_featured}
+                                        setData={setDataRequest}
+                                        disabled={false}
+                                        validate={validate}
+                                        setValidate={setValidate}
+                                        submittedTime={submittedTime}
+                                        listDataOfItem={Constants.FeaturedConfig.List}
                                         valueName='value'
                                         labelName='label'
                                     />

@@ -31,6 +31,7 @@ const ProductListPage = () => {
     const [categoryId, setCategoryId] = useState<string>("");
     const [brandId, setBrandId] = useState<string>("");
     const [active, setActive] = useState<string>("");
+    const [isFeature, setIsFeature] = useState<string>("");
 
     const [idSelected, setIdSelected] = useState<string>("");
     const [selectedItem, setSelectedItem] = useState<ProductInterface | null>()
@@ -43,14 +44,15 @@ const ProductListPage = () => {
     const router = useNavigate();
     const brandState = useRecoilValue(BrandState).data;
     const categoryProductState = useRecoilValue(CategoryProductState).data;
-    const onGetListAsync = async ({ search = "", category_id = "", brand_id = "", active = "", size = pageSize, page = currentPage }) => {
+    const onGetListAsync = async ({ search = "", category_id = "", brand_id = "", active = "", is_featured = "", size = pageSize, page = currentPage }) => {
         const param = {
             page: page,
             limit: size,
             search: search,
             category_id: category_id,
             brand_id: brand_id,
-            active: active
+            active: active,
+            is_featured: is_featured,
         }
         try {
             await productService.GetProduct(
@@ -65,15 +67,15 @@ const ProductListPage = () => {
             console.error(error)
         }
     }
-    const onSearch = async (search = "", category_id = "", brand_id = "", active = "", size = pageSize, page = 1) => {
-        await onGetListAsync({ search: search, category_id: category_id, brand_id: brand_id, active: active, size: size, page: page });
+    const onSearch = async (search = "", category_id = "", brand_id = "", active = "", is_featured = "", size = pageSize, page = 1) => {
+        await onGetListAsync({ search: search, category_id: category_id, brand_id: brand_id, active: active, is_featured: is_featured, size: size, page: page });
     };
 
     const onChangeSearchText = (e: any) => {
         setSearchText(e.target.value);
         clearTimeout(timeout);
         timeout = setTimeout(() => {
-            onSearch(e.target.value, categoryId, brandId, active, pageSize, currentPage,).then((_) => { });
+            onSearch(e.target.value, categoryId, brandId, active, isFeature, pageSize, currentPage).then((_) => { });
         }, Constants.DEBOUNCE_SEARCH);
     };
 
@@ -83,23 +85,28 @@ const ProductListPage = () => {
 
     const onChangePage = async (value: any) => {
         setCurrentPage(value)
-        await onSearch(searchText, categoryId, brandId, active, pageSize, value).then(_ => { });
+        await onSearch(searchText, categoryId, brandId, active, isFeature, pageSize, value).then(_ => { });
     };
 
     const onPageSizeChanged = async (value: any) => {
         setPageSize(value)
         setCurrentPage(1)
-        await onSearch(searchText, categoryId, brandId, active, value, 1).then(_ => { });
+        await onSearch(searchText, categoryId, brandId, active, isFeature, value, 1).then(_ => { });
     };
 
     const onChangeCategory = async (value: any) => {
         setCategoryId(value)
-        await onSearch(searchText, value, brandId, active, pageSize, currentPage).then(_ => { });
+        await onSearch(searchText, value, brandId, active, isFeature, pageSize, currentPage).then(_ => { });
     };
 
     const onChangeActive = async (value: any) => {
         setActive(value)
-        await onSearch(searchText, categoryId, brandId, value, pageSize, currentPage).then(_ => { });
+        await onSearch(searchText, categoryId, brandId, value, isFeature, pageSize, currentPage).then(_ => { });
+    };
+
+    const onChangeFeatured = async (value: any) => {
+        setIsFeature(value)
+        await onSearch(searchText, categoryId, brandId, active, value, pageSize, currentPage).then(_ => { });
     };
     // Xóa bài
     const onOpenModalDelete = (id: any) => {
@@ -146,7 +153,7 @@ const ProductListPage = () => {
             <div className={styles.manage_container}>
                 <h2>Quản lý sản phẩm</h2>
                 <Row gutter={[15, 15]}>
-                    <Col xs={24} md={6}>
+                    <Col xs={24} md={5}>
                         <Input
                             className="form-control"
                             placeholder="Tìm kiếm theo tên"
@@ -154,7 +161,7 @@ const ProductListPage = () => {
                             onChange={onChangeSearchText}
                         />
                     </Col>
-                    <Col xs={24} md={6}>
+                    <Col xs={24} md={5}>
                         <SelectSearchCommon
                             listDataOfItem={categoryProductState}
                             onChange={onChangeCategory}
@@ -162,12 +169,22 @@ const ProductListPage = () => {
                             label={'Danh mục'}
                         />
                     </Col>
-                    <Col xs={24} md={6}>
+                    <Col xs={24} md={4}>
                         <SelectSearchCommon
                             listDataOfItem={Constants.DisplayConfig.List}
                             onChange={onChangeActive}
                             value={active}
                             label={'Trạng thái'}
+                            labelName='label'
+                            valueName='value'
+                        />
+                    </Col>
+                    <Col xs={24} md={4}>
+                        <SelectSearchCommon
+                            listDataOfItem={Constants.FeaturedConfig.List}
+                            onChange={onChangeFeatured}
+                            value={isFeature}
+                            label={'Nổi bật'}
                             labelName='label'
                             valueName='value'
                         />
@@ -245,6 +262,23 @@ const ProductListPage = () => {
                             }
                             key={"short_description"}
                             dataIndex={"short_description"}
+                        />
+                        <Table.Column
+                            title={
+                                <TitleTableCommon
+                                    title="Sản phẩm nổi bật"
+                                    width={'150px'}
+                                />
+                            }
+                            key={"is_featured"}
+                            dataIndex={"is_featured"}
+                            render={(val) => {
+                                const result = Constants.FeaturedConfig.List.find(item => item.value == val)
+                                if (result) {
+                                    return <StatusCommon title={result.label} status={result.value} />
+                                }
+                                return
+                            }}
                         />
                         <Table.Column
                             title={

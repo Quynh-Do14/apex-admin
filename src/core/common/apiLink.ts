@@ -132,4 +132,7 @@ export class Endpoint {
     static Upload = class {
         static Single = "/upload/single"
     }
+    static SubCategory = class {
+        static Get = "/sub-category"
+    }
 }

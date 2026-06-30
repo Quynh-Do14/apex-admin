@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import categoryProductService from "../../../repository/category/categoryProduct.service";
 import categoryBlogService from "../../../repository/category/categoryBlog.service";
 import { useRecoilState } from "recoil";
-import { CategoryAgencyState, CategoryBlogState, CategoryProductState } from "../../../../core/atoms/category/categoryState";
+import { CategoryAgencyState, CategoryBlogState, CategoryProductState, SubCategoryState } from "../../../../core/atoms/category/categoryState";
 import { BrandState } from "../../../../core/atoms/brand/brandState";
 import brandService from "../../../repository/brand/brand.service";
 import { SeriesState } from "../../../../core/atoms/series/series";
@@ -15,6 +15,7 @@ import productService from "../../../repository/product/product.service";
 import categoryAgencyService from "../../../repository/category/categoryAgency.service";
 import { ProfileState } from "../../../../core/atoms/profile/profileState";
 import authService from "../../../repository/auth/auth.service";
+import subcategoryService from "../../../repository/category/subCategory.service";
 
 
 export default function AdminLayout({ breadcrumb, title, redirect, children }: any) {
@@ -25,6 +26,7 @@ export default function AdminLayout({ breadcrumb, title, redirect, children }: a
     const [, setBrandState] = useRecoilState(BrandState);
     const [, setSeriesState] = useRecoilState(SeriesState);
     const [, setProductState] = useRecoilState(ProductState);
+    const [, setSubCategoryState] = useRecoilState(SubCategoryState);
     const [profileState, setProfileState] = useRecoilState(ProfileState);
 
     const onGetListCategoryAsync = async () => {
@@ -70,6 +72,22 @@ export default function AdminLayout({ breadcrumb, title, redirect, children }: a
                 () => { }
             ).then((res) => {
                 setCategoryBlogState({
+                    data: res.data
+                })
+            })
+        }
+        catch (error) {
+            console.error(error)
+        }
+    }
+
+    const onGetListSubCategoryAsync = async () => {
+        try {
+            await subcategoryService.GetBlogCategory(
+                {},
+                () => { }
+            ).then((res) => {
+                setSubCategoryState({
                     data: res.data
                 })
             })
@@ -155,6 +173,7 @@ export default function AdminLayout({ breadcrumb, title, redirect, children }: a
         // onGetListProductAsync().then(_ => { });
         // onGetListAgencyCategoryAsync().then(_ => { });
         onGetProfileAsync().then(_ => { });
+        onGetListSubCategoryAsync().then(_ => { });
     }, []);
 
     return (

@@ -223,30 +223,30 @@ export const privateRoutes = [
         role: ["ADMIN", 'SELLER']
     },
 
-    {
-        path: ROUTE_PATH.AGENCY_MANAGEMENT,
-        component: AgencyListPage,
-        private: true,
-        role: ["ADMIN", 'SELLER']
-    },
-    {
-        path: ROUTE_PATH.ADD_AGENCY_MANAGEMENT,
-        component: AddAgencyManagement,
-        private: true,
-        role: ["ADMIN", 'SELLER']
-    },
-    {
-        path: ROUTE_PATH.EDIT_AGENCY_MANAGEMENT,
-        component: SlugAgencyManagement,
-        private: true,
-        role: ["ADMIN", 'SELLER']
-    },
-    {
-        path: ROUTE_PATH.VIEW_AGENCY_MANAGEMENT,
-        component: ViewAgencyManagement,
-        private: true,
-        role: ["ADMIN", 'SELLER']
-    },
+    // {
+    //     path: ROUTE_PATH.AGENCY_MANAGEMENT,
+    //     component: AgencyListPage,
+    //     private: true,
+    //     role: ["ADMIN", 'SELLER']
+    // },
+    // {
+    //     path: ROUTE_PATH.ADD_AGENCY_MANAGEMENT,
+    //     component: AddAgencyManagement,
+    //     private: true,
+    //     role: ["ADMIN", 'SELLER']
+    // },
+    // {
+    //     path: ROUTE_PATH.EDIT_AGENCY_MANAGEMENT,
+    //     component: SlugAgencyManagement,
+    //     private: true,
+    //     role: ["ADMIN", 'SELLER']
+    // },
+    // {
+    //     path: ROUTE_PATH.VIEW_AGENCY_MANAGEMENT,
+    //     component: ViewAgencyManagement,
+    //     private: true,
+    //     role: ["ADMIN", 'SELLER']
+    // },
 
     // {
     //     path: ROUTE_PATH.CATEGORY_AGENCY_MANAGEMENT,
@@ -292,36 +292,36 @@ export const privateRoutes = [
         role: ["ADMIN", 'SELLER']
     },
 
-    {
-        path: ROUTE_PATH.SLOGAN_MANAGEMENT,
-        component: SloganListPage,
-        private: true,
-        role: ["ADMIN", 'SELLER']
-    },
-    {
-        path: ROUTE_PATH.ADD_SLOGAN_MANAGEMENT,
-        component: AddSloganManagement,
-        private: true,
-        role: ["ADMIN", 'SELLER']
-    },
-    {
-        path: ROUTE_PATH.EDIT_SLOGAN_MANAGEMENT,
-        component: SlugSloganManagement,
-        private: true,
-        role: ["ADMIN", 'SELLER']
-    },
-    {
-        path: ROUTE_PATH.EDIT_INDEX_SLOGAN_MANAGEMENT,
-        component: UpdateIndexSloganManagement,
-        private: true,
-        role: ["ADMIN", 'SELLER']
-    },
-    {
-        path: ROUTE_PATH.VIEW_SLOGAN_MANAGEMENT,
-        component: ViewSloganManagement,
-        private: true,
-        role: ["ADMIN", 'SELLER']
-    },
+    // {
+    //     path: ROUTE_PATH.SLOGAN_MANAGEMENT,
+    //     component: SloganListPage,
+    //     private: true,
+    //     role: ["ADMIN", 'SELLER']
+    // },
+    // {
+    //     path: ROUTE_PATH.ADD_SLOGAN_MANAGEMENT,
+    //     component: AddSloganManagement,
+    //     private: true,
+    //     role: ["ADMIN", 'SELLER']
+    // },
+    // {
+    //     path: ROUTE_PATH.EDIT_SLOGAN_MANAGEMENT,
+    //     component: SlugSloganManagement,
+    //     private: true,
+    //     role: ["ADMIN", 'SELLER']
+    // },
+    // {
+    //     path: ROUTE_PATH.EDIT_INDEX_SLOGAN_MANAGEMENT,
+    //     component: UpdateIndexSloganManagement,
+    //     private: true,
+    //     role: ["ADMIN", 'SELLER']
+    // },
+    // {
+    //     path: ROUTE_PATH.VIEW_SLOGAN_MANAGEMENT,
+    //     component: ViewSloganManagement,
+    //     private: true,
+    //     role: ["ADMIN", 'SELLER']
+    // },
 
     {
         path: ROUTE_PATH.CONFIG_PAGE_MANAGEMENT,

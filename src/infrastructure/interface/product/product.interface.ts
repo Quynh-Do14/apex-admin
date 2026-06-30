@@ -20,7 +20,8 @@ export interface ProductInterface {
     slug: string
     sameCategoryProducts: ProductInterface[]
     keyword: ProductKeyword[]
-
+    sub_category_id: string
+    is_featured: boolean
 }
 
 export interface ProductRequestInterface {

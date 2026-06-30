@@ -4,7 +4,7 @@ import { Col, Row } from 'antd';
 
 import { useRecoilValue } from 'recoil';
 import { BrandState } from '../../core/atoms/brand/brandState';
-import { CategoryProductState } from '../../core/atoms/category/categoryState';
+import { CategoryProductState, SubCategoryState } from '../../core/atoms/category/categoryState';
 import { useNavigate } from 'react-router-dom';
 import { ROUTE_PATH } from '../../core/common/appRouter';
 import productService from '../../infrastructure/repository/product/product.service';
@@ -59,6 +59,7 @@ const AddProductManagement = () => {
     };
     const brandState = useRecoilValue(BrandState).data;
     const categoryProductState = useRecoilValue(CategoryProductState).data;
+    const subCategoryState = useRecoilValue(SubCategoryState).data;
 
     const router = useNavigate();
     const onBack = () => {
@@ -82,9 +83,11 @@ const AddProductManagement = () => {
             formData.append('image', dataRequest.image);
             formData.append('name', dataRequest.name);
             formData.append('category_id', dataRequest.category_id);
+            formData.append('sub_category_id', dataRequest.sub_category_id || 0);
             // formData.append('brand_id', dataRequest.brand_id);
             formData.append('price', dataRequest.price);
             formData.append('active', dataRequest.active);
+            formData.append('is_featured', dataRequest.is_featured);
             formData.append('price_sale', dataRequest.price_sale || 0);
             formData.append('short_description', dataRequest.short_description);
             formData.append('index', dataRequest.index);
@@ -210,6 +213,28 @@ const AddProductManagement = () => {
                                         listDataOfItem={categoryProductState}
                                     />
                                 </Col>
+                                {
+                                    categoryProductState.find((item) => item.id == dataRequest?.category_id)?.sub_category == true
+                                        ?
+                                        <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                                            <InputSelectStatus
+                                                label={"Danh mục phụ"}
+                                                attribute={"sub_category_id"}
+                                                isRequired={true}
+                                                dataAttribute={dataRequest.sub_category_id}
+                                                setData={setDataRequest}
+                                                disabled={false}
+                                                validate={validate}
+                                                setValidate={setValidate}
+                                                submittedTime={submittedTime}
+                                                listDataOfItem={subCategoryState}
+                                            />
+
+                                        </Col>
+                                        :
+                                        null
+                                }
+
                                 {/* <Col xs={24} sm={24} md={24} lg={12} xl={12}>
                                     <InputSelectCommon
                                         label={"Thương hiệu"}
@@ -275,6 +300,22 @@ const AddProductManagement = () => {
                                         setValidate={setValidate}
                                         submittedTime={submittedTime}
                                         listDataOfItem={Constants.DisplayConfig.List}
+                                        valueName='value'
+                                        labelName='label'
+                                    />
+                                </Col>
+                                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                                    <InputSelectStatus
+                                        label={"Sản phẩm nổi bật"}
+                                        attribute={"is_featured"}
+                                        isRequired={true}
+                                        dataAttribute={dataRequest.is_featured}
+                                        setData={setDataRequest}
+                                        disabled={false}
+                                        validate={validate}
+                                        setValidate={setValidate}
+                                        submittedTime={submittedTime}
+                                        listDataOfItem={Constants.FeaturedConfig.List}
                                         valueName='value'
                                         labelName='label'
                                     />
